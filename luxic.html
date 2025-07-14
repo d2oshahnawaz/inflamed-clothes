@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inflamed Drips</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .navbar {
+      background-color: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+    }
+
+    .logo {
+      color: #000;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .nav-links a {
+      color: #000;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sign-in {
+      background-color: transparent;
+      border: none;
+      color: #000;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .contact {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #1a1a1a;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      margin-bottom: 12px;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    }
+
+    .subtext {
+      color: #ccc;
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+
+    .explore-btn {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .explore-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .images {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .img-left, .img-right {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .product-section {
+      background-color: #eee;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .product-heading {
+      color: #000;
+      font-size: 22px;
+      margin-bottom: 40px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .product-card {
+      padding: 20px;
+      border-radius: 6px;
+      text-align: center;
+      background-color: #ddd;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .product-card p {
+      color: #000;
+      font-size: 14px;
+    }
+
+    .welcome-section,
+    .summer-section {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #fff;
+      padding: 40px 20px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .welcome-image img,
+    .summer-image img {
+      width: 100%;
+      max-width: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .welcome-content,
+    .summer-content {
+      max-width: 500px;
+      padding: 20px;
+      color: #000;
+    }
+
+    .welcome-content h2,
+    .summer-content h2 {
+      font-size: 26px;
+      margin-bottom: 15px;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .welcome-content p,
+    .summer-content p {
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .discover-link,
+    .read-more {
+      background-color: #000;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .discover-link:hover,
+    .read-more:hover {
+      background-color: #222;
+      color: #fff;
+    }
+
+    .discover-link:hover {
+      color: #333;
+      border-color: #333;
+    }
+
+    .read-more:hover {
+      background-color: #222;
+      color: #fff;
+    }
+
+    .read-more:hover {
+      background-color: #333;
+      border-color: #333;
+    }
+
+    .footer-section {
+      background: linear-gradient(145deg, #111, #1f1f1f);
+      color: #e0e0e0;
+      padding: 60px 20px 30px;
+      text-align: center;
+      border-top: 2px solid #333;
+      box-shadow: 0 -2px 15px rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-cta h2 {
+      font-size: 26px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .footer-cta p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #bbb;
+    }
+
+    .explore-button {
+      background-color: #fff;
+      color: #000;
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .explore-button:hover {
+      background-color: #f0f0f0;
+      box-shadow: 0 6px 18px rgba(255, 255, 255, 0.4);
+      color: #000;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+      margin: 25px 0 10px;
+    }
+
+    .footer-links li {
+      display: inline-block;
+      margin: 0 12px;
+    }
+
+    .footer-links a {
+      color: #f5f5f5;
+      font-size: 15px;
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .footer-links a::after {
+      content: '';
+      display: block;
+      height: 2px;
+      width: 0%;
+      background: #fff;
+      transition: width 0.3s;
+      margin-top: 4px;
+    }
+
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+
+    .footer-links p {
+      font-size: 14px;
+      margin: 8px 0;
+      color: #999;
+    }
+
+    .footer-branding {
+      font-size: 13px;
+      color: #666;
+      margin-top: 20px;
+      border-top: 1px solid #444;
+      padding-top: 15px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .explore-btn {
+        width: 100%;
+      }
+
+      .nav-links {
+        justify-content: center;
+        text-align: center;
+        gap: 10px;
+      }
+
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-actions {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .welcome-section,
+      .summer-section {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">Inflamed Drips</div>
+  <nav class="nav-links">
+    <a href="#">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="service.html">Services</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="about.html">About Us</a>
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="shiping.html">Shipping</a>
+  </nav>
+  <div class="nav-actions">
+    <button class="sign-in" onclick="window.location.href='profile.html'">Sign in</button>
+    <button class="contact" onclick="window.location.href='contact.html'">Contact</button>
+  </div>
+</header>
+
+<main class="hero">
+  <h1>Inflamed Drips</h1>
+  <p class="subtext">Fashion trends are ready to inspire your next outfit.</p>
+  <button class="explore-btn" onclick="window.location.href='shop.html'">Explore our collections</button>
+  <div class="images">
+    <img src="image1.jpg" alt="Fashion Image 1" class="img-left" />
+    <img src="image2.jpg" alt="Fashion Image 2" class="img-right" />
+  </div>
+</main>
+
+<section class="product-section">
+  <h2 class="product-heading">Explore the Trends that Define Style</h2>
+  <div class="product-grid">
+    <div class="product-card" style="background-color: #4a3c36;">
+      <img src="image/IMG-20250622-WA0010[1].jpg" alt="Blessed T-shirt">
+      <p>A glimpse of elegance and comfort in every piece</p>
+    </div>
+    <div class="product-card" style="background-color: #3d3650;">
+      <img src="image/IMG-20250622-WA0039.jpg" alt="Future T-shirt">
+      <p>Perfect outfits for every occasion</p>
+    </div>
+    <div class="product-card" style="background-color: #2e3c4d;">
+      <img src="image/IMG-20250622-WA0046.jpg" alt="Brave T-shirt">
+      <p>Quality that speaks for itself</p>
+    </div>
+    <div class="product-card" style="background-color: #2f4b3d;">
+      <img src="image/IMG-20250622-WA0009.jpg" alt="Strength T-shirt">
+      <p>Redefine your wardrobe with our latest styles</p>
+    </div>
+  </div>
+</section>
+
+<section class="welcome-section">
+    <div class="welcome-image">
+      <img src="girl-nike.jpg" alt="Street fashion">
+    </div>
+    <div class="welcome-content">
+      <h2>Welcome to Inflamed Drips</h2>
+      <p>Explore new and exciting destinations with our ultimate guide to hidden gems and secret spots.</p>
+      <a href="#" class="discover-link">Discover more styles →</a>
+    </div>
+  </section>
+
+  <section class="summer-section">
+    <div class="summer-content">
+      <h2>Summer Must-Haves</h2>
+      <p>Make a statement this summer with our carefully curated collection of everyday wear.</p>
+      <a href="#" class="read-more">Read more</a>
+    </div>
+    <div class="summer-image">
+      <img src="summer-style.jpg" alt="Summer fashion">
+    </div>
+  </section>
+
+<footer class="footer-section">
+  <div class="footer-cta">
+    <h2>Find your unique style with us</h2>
+    <p>Get ready for the new summer collection</p>
+    <a href="shop.html" class="explore-button">Explore our collections</a>
+  </div>
+
+  <div class="footer-links">
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="service.html">Services</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="terms.html">Terms</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="shiping.html">Shipping</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+
+    <p><img src="email-icon.png" alt="Email"> inflameddrips.inofficial@gmail.com</p>
+    <p class="copyright">© Inflamed Drips.org</p>
+  </div>
+<!-- Social Media Icons -->
+<div style="margin: 20px 0;">
+  <a href="https://www.instagram.com/InflamedDrips.in" target="_blank" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" width="24" style="vertical-align: middle;">
+  </a>
+</div>
+
+  <div class="footer-branding">
+    <p>Powered by <strong>odoo</strong> - The #1 Open Source eCommerce</p>
+  </div>
+</footer>
+
+</body>
+</html>

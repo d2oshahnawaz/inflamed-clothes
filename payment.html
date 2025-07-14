@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment - Inflamed Drips</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #000;
+      --header-bg: #000;
+      --header-text: #fff;
+      --footer-bg: #000;
+      --footer-text: #fff;
+    }
+
+    body.dark-theme {
+      --bg-color: #121212;
+      --text-color: #fff;
+      --header-bg: #1f1f1f;
+      --header-text: #fff;
+      --footer-bg: #1f1f1f;
+      --footer-text: #ccc;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      padding: 15px 20px;
+      position: relative;
+    }
+
+    .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-left {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--header-text);
+}
+
+.nav-center {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.nav-center a {
+  color: var(--header-text);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.nav-center a:hover {
+  text-decoration: underline;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle {
+  background: transparent;
+  color: var(--header-text);
+  border: 1px solid var(--header-text);
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+    .container {
+      background: #fff;
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 40px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      background-color: black;
+      color: white;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    .upi-box {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .upi-box img {
+      width: 200px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .upi-box a {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: var(--footer-bg);
+      color: var(--footer-text);
+      text-align: center;
+      padding: 30px 20px;
+      margin-top: 60px;
+    }
+
+    footer a {
+      color: var(--footer-text);
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    footer .social-icons {
+      margin: 20px 0;
+    }
+
+    footer .social-icons img {
+      width: 24px;
+      height: 24px;
+      margin: 0 8px;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        justify-content: flex-start;
+        margin-top: 10px;
+      }
+
+      .theme-toggle {
+        position: static;
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="nav-left">Inflamed Drips</div>
+
+    <div class="nav-center">
+      <a href="luxic.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="profile-header">
+    <img id="profileImg" src="" alt="Profile" style="display:none;" />
+    <h3 id="userName"></h3>
+    <p id="userEmail"></p>
+  </div>
+
+  <div class="upi-box" id="upiBox">
+    <h3 id="upiTitle">Scan or Tap to Pay</h3>
+    <img id="qrCode" src="" alt="Scan to Pay QR" />
+    <p><strong>UPI ID:</strong>
+      <a id="upiLink" href="#" target="_blank">ms8875263-1@okhdfcbank</a>
+    </p>
+    <p><em>Scan or tap to pay with UPI apps</em></p>
+  </div>
+
+  <h2>Complete Your Payment</h2>
+
+  <label>Payment Mode</label>
+  <select id="paymentMode" onchange="togglePaymentFields()">
+    <option value="upi">UPI Payment</option>
+    <option value="cod">Cash on Delivery</option>
+  </select>
+
+  <label>Name</label>
+  <input type="text" id="name" disabled>
+  <label>Email</label>
+  <input type="text" id="email" disabled>
+  <label>Contact Number</label>
+  <input type="text" id="phone" disabled>
+  <label>Address</label>
+  <textarea id="address" rows="3" disabled></textarea>
+  <label>Items</label>
+  <textarea id="item" rows="3" disabled></textarea>
+  <label>Total Price</label>
+  <input type="text" id="totalPrice" disabled>
+
+  <div id="upiFields">
+    <label>Transaction ID</label>
+    <input type="text" id="txnId" placeholder="Enter UPI Transaction ID">
+    <label>Upload Screenshot</label>
+    <input type="file" id="screenshot" accept="image/*">
+  </div>
+
+  <button onclick="submitForm()">Submit Order</button>
+</div>
+
+<footer>
+  <div>
+    <a href="luxic.html">Home</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/InflamedDrips.in" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+  </div>
+  <p>📧 inflameddrips.inofficial@gmail.com</p>
+  <p>© Inflamed Drips.org</p>
+</footer>
+
+<script>
+  if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-theme");
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle("dark-theme");
+    localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
+  }
+
+  let user;
+  try {
+    user = JSON.parse(localStorage.getItem("user"));
+    if (!user) throw new Error("No user found");
+  } catch (err) {
+    alert("Please login first.");
+    window.location.href = "signin.html";
+  }
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const selectedProduct = JSON.parse(localStorage.getItem("selectedProduct"));
+  let items = "";
+  let total = 0;
+
+  if (selectedProduct) {
+    items = `${selectedProduct.name} × 1`;
+    total = selectedProduct.price;
+  } else if (cart.length > 0) {
+    items = cart.map(p => `${p.name} × ${p.quantity || 1}`).join(", ");
+    total = cart.reduce((acc, p) => acc + p.price * (p.quantity || 1), 0);
+  } else {
+    alert("No product selected. Redirecting...");
+    window.location.href = "shop.html";
+  }
+
+  document.getElementById("name").value = user.name;
+  document.getElementById("email").value = user.email;
+  document.getElementById("phone").value = user.phone;
+  document.getElementById("address").value = user.address;
+  document.getElementById("userName").innerText = user.name;
+  document.getElementById("userEmail").innerText = user.email;
+  document.getElementById("item").value = items;
+  document.getElementById("totalPrice").value = `₹${total}`;
+
+  if (user.profileImage) {
+    document.getElementById("profileImg").src = user.profileImage;
+    document.getElementById("profileImg").style.display = "inline-block";
+  }
+
+  const upiId = "ms8875263-1@okhdfcbank";
+  const upiUrl = `upi://pay?pa=${upiId}&pn=Inflamed%20Drips&am=${total}&cu=INR`;
+  const qrUrl = `https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${encodeURIComponent(upiUrl)}`;
+
+  document.getElementById("qrCode").src = qrUrl;
+  document.getElementById("upiLink").href = upiUrl;
+  document.getElementById("upiLink").innerText = `${upiId} (₹${total})`;
+  document.getElementById("upiTitle").innerText = `Scan or Tap to Pay – ₹${total}`;
+
+  function togglePaymentFields() {
+    const mode = document.getElementById("paymentMode").value;
+    document.getElementById("upiFields").style.display = mode === "upi" ? "block" : "none";
+    document.getElementById("upiBox").style.display = mode === "upi" ? "block" : "none";
+  }
+
+  togglePaymentFields();
+
+  async function submitForm() {
+    const mode = document.getElementById("paymentMode").value;
+    const txnId = document.getElementById("txnId").value;
+    const screenshot = document.getElementById("screenshot").files[0];
+
+    if (mode === "upi" && (!txnId || !screenshot)) {
+      alert("Please provide Transaction ID and Screenshot.");
+      return;
+    }
+
+    let imageBase64 = "";
+    if (screenshot) {
+      const reader = new FileReader();
+      reader.readAsDataURL(screenshot);
+      await new Promise(resolve => {
+        reader.onloadend = () => {
+          imageBase64 = reader.result;
+          resolve();
+        };
+      });
+    }
+
+    const payload = {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+      txnId: mode === "upi" ? txnId : "COD",
+      item: items,
+      price: total,
+      imageBase64: imageBase64,
+      mode: mode
+    };
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxzvXiwsiyPXgD24lUEUIX2BRn8BNGf-_CUdsqRjrpFyCJlc4-0NSOOSew34XPRrc9o/exec";
+
+    try {
+      const res = await fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      const responseText = await res.text();
+      console.log("✅ Script Response:", responseText);
+
+      if (res.ok && responseText.includes("Success")) {
+        localStorage.removeItem("selectedProduct");
+        localStorage.removeItem("cart");
+        alert("✅ Order submitted successfully!");
+        window.location.href = "thankyou.html";
+      } else {
+        alert("❌ Submission failed: " + responseText);
+      }
+
+    } catch (error) {
+      console.error("❌ Error:", error);
+      alert("An error occurred while submitting the form.");
+    }
+  }
+</script>
+
+</body>
+</html>

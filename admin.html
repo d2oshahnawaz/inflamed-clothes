@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <style>
+    :root {
+      --bg-color: #f4f4f4;
+      --text-color: #000;
+      --header-footer-bg: #000;
+      --header-footer-text: #fff;
+      --table-header-bg: #000;
+      --table-header-text: #fff;
+    }
+
+    body.dark-theme {
+      --bg-color: #121212;
+      --text-color: #fff;
+      --header-footer-bg: #1f1f1f;
+      --header-footer-text: #fff;
+      --table-header-bg: #333;
+      --table-header-text: #fff;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    header, footer {
+      background-color: var(--header-footer-bg);
+      color: var(--header-footer-text);
+      padding: 15px 20px;
+      text-align: center;
+    }
+
+    header .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    header .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    header nav a {
+      color: var(--header-footer-text);
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      padding: 5px 10px;
+      border: 1px solid #fff;
+      border-radius: 5px;
+      margin-left: 15px;
+      background: transparent;
+      color: var(--header-footer-text);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: var(--bg-color);
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .filters input, .filters select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--table-header-bg);
+      color: var(--table-header-text);
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .email-btn {
+      background-color: #28a745;
+    }
+
+    .whatsapp-btn {
+      background-color: #25D366;
+    }
+
+    .logout-btn {
+      float: right;
+      background-color: red;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      margin: 0 6px;
+      display: inline-block;
+    }
+
+    .social-icons img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+    }
+
+    @media (max-width: 600px) {
+      header .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .filters, .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">Inflamed Drips</div>
+      <nav>
+        <a href="luxic.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <script>
+    if (localStorage.getItem("isAdmin") !== "true") {
+      alert("Access denied. Please login as admin.");
+      window.location.href = "admin-login.html";
+    }
+  </script>
+
+  <div class="container">
+    <button onclick="logout()" class="logout-btn">Logout</button>
+    <h2>Admin Dashboard - Payment Records</h2>
+
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search by name, email, item or txn ID..." onkeyup="filterTable()" />
+      <input type="date" id="dateFilter" onchange="filterTable()" />
+      <select id="modeFilter" onchange="filterTable()">
+        <option value="">All Modes</option>
+        <option value="UPI">UPI</option>
+        <option value="Cash on Delivery">Cash on Delivery</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <button onclick="exportCSV()">📥 Export CSV</button>
+      <button onclick="downloadInvoiceArchive()">🧾 Download All Invoices</button>
+    </div>
+
+    <table id="dataTable">
+      <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Item</th>
+          <th>Txn ID</th>
+          <th>Mode</th>
+          <th>Screenshot</th>
+          <th>Invoice</th>
+          <th>Reminder</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/inflameddrips.in" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+    </div>
+    <div style="margin-top: 10px;">📧 inflameddrips.inofficial@gmail.com</div>
+    <div style="margin-top: 10px; font-size: 13px;">Powered by Odoo - The #1 Open Source eCommerce<br>© Inflamed Drips.org</div>
+  </footer>
+
+  <script>
+    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxzvXiwsiyPXgD24lUEUIX2BRn8BNGf-_CUdsqRjrpFyCJlc4-0NSOOSew34XPRrc9o/exec";
+    let globalData = [];
+
+    fetch(SHEET_API_URL)
+      .then(res => res.json())
+      .then(data => {
+        globalData = data;
+        renderTable(data);
+      });
+
+    function renderTable(data) {
+      const tbody = document.getElementById("dataBody");
+      tbody.innerHTML = "";
+      data.forEach(row => {
+        const invoiceURL = row["Invoice URL"] || "#";
+        const screenshotURL = row["Screenshot URL"] || "#";
+        const mode = row["Mode"] || "UPI";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.Timestamp}</td>
+          <td>${row.Name}</td>
+          <td>${row.Email}</td>
+          <td>${row.Phone}</td>
+          <td>${row.Address}</td>
+          <td>${row.Item}</td>
+          <td>${row["Txn ID"]}</td>
+          <td>${mode}</td>
+          <td><a href="${screenshotURL}" target="_blank">View</a></td>
+          <td><a href="${invoiceURL}" target="_blank">Invoice</a></td>
+          <td>
+            <button class="email-btn" onclick="sendEmailReminder('${row.Email}', '${row.Name}')">Email</button>
+            <button class="whatsapp-btn" onclick="sendWhatsAppReminder('${row.Phone}', '${row.Name}', '${invoiceURL}')">WA</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterTable() {
+      const search = document.getElementById("searchInput").value.toLowerCase();
+      const date = document.getElementById("dateFilter").value;
+      const mode = document.getElementById("modeFilter").value;
+
+      const filtered = globalData.filter(row => {
+        const values = Object.values(row).map(v => String(v).toLowerCase());
+        const searchMatch = values.some(v => v.includes(search));
+        const dateMatch = !date || new Date(row.Timestamp).toISOString().split("T")[0] === date;
+        const modeMatch = !mode || (row.Mode || 'UPI') === mode;
+        return searchMatch && dateMatch && modeMatch;
+      });
+
+      renderTable(filtered);
+    }
+
+    function exportCSV() {
+      const rows = document.querySelectorAll("table tr");
+      const csv = Array.from(rows).map(row => {
+        const cols = row.querySelectorAll("th, td");
+        return Array.from(cols).map(col => `"${col.innerText}"`).join(",");
+      }).join("\n");
+
+      const blob = new Blob([csv], { type: "text/csv" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "payment-records.csv";
+      link.click();
+    }
+
+    function downloadInvoiceArchive() {
+      const zipLink = "https://drive.google.com/uc?id=ZIP_FILE_ID&export=download";
+      window.open(zipLink, "_blank");
+    }
+
+    function sendEmailReminder(email, name) {
+      const subject = `Reminder: Your Order at Inflamed Drips`;
+      const body = `Hi ${name},\n\nThis is a friendly reminder regarding your recent order with us.\nPlease check your invoice and let us know if you need assistance.\n\nThank you,\nInflamed Drips Team`;
+      window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    }
+
+    function sendWhatsAppReminder(phone, name, invoiceLink) {
+      const cleanPhone = phone.replace(/\D/g, '');
+      const msg = `Hi ${name}, this is a reminder for your order at Inflamed Drips.\n\nInvoice: ${invoiceLink}\n\nThank you!`;
+      window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`);
+    }
+
+    function logout() {
+      localStorage.removeItem("isAdmin");
+      window.location.href = "admin-login.html";
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-theme");
+    }
+  </script>
+</body>
+</html>

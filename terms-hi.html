@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>शर्तें और नियम - Inflamed Drips</title>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+      background: #fff;
+      color: #000;
+      padding: 10px 30px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 5px;
+    }
+
+    nav a {
+      color: #000;
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .nav-icons input {
+      padding: 4px;
+      border-radius: 5px;
+    }
+
+    .nav-icons button {
+      padding: 6px 12px;
+      border: none;
+      cursor: pointer;
+      background: #000;
+      color: #fff;
+      border-radius: 5px;
+    }
+
+    .language-switch {
+      margin-left: 20px;
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .hero-banner {
+      background: url('https://via.placeholder.com/1500x300?text=Terms+and+Conditions') no-repeat center center/cover;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .hero-banner h1 {
+      font-size: 48px;
+      color: #ffffff;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .breadcrumb {
+      background-color: #222;
+      padding: 10px 30px;
+      font-size: 14px;
+    }
+
+    .breadcrumb a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .breadcrumb span {
+      color: #ffcc00;
+    }
+
+    .terms-section {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 60px 40px;
+    }
+
+    .terms-section h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .terms-section p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    footer {
+      background-color: #000;
+      color: white;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #555;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links ul li a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .navbar nav,
+      .footer-links ul {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .terms-section {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="logo">Inflamed Drips</div>
+      <nav>
+        <a href="luxic.html">गृह पृष्ठ</a>
+        <a href="shop.html">खरीदी</a>
+        <a href="service.html">सेवाओं</a>
+        <a href="pricing.html">मूल्य सूची</a>
+        <a href="about.html">के बारे में</a>
+        <a href="privacy.html">गोपनीयता</a>
+        <a href="shiping.html">शिपिंग</a>
+      </nav>
+      <div class="nav-icons">
+        <input type="text" placeholder="खोजें...">
+        <button onclick="window.location.href='contact.html'">संपर्क करें</button>
+        <button class="language-switch" onclick="window.location.href='terms.html'">English</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-banner">
+    <h1>शर्तें</h1>
+  </section>
+
+  <div class="breadcrumb">
+    <a href="luxic.html">गृह पृष्ठ</a> &gt; <span>शर्तें और नियम</span>
+  </div>
+
+  <section class="terms-section">
+    <h2>शर्तें और नियम</h2>
+    <p>Inflamed Drips में आपका स्वागत है!</p>
+
+    <p><strong>1 - उत्पाद उपलब्धता</strong><br>
+    सभी उत्पाद उपलब्धता के अधीन हैं। हम किसी भी उत्पाद को बिना सूचना के सीमित या बंद करने का अधिकार रखते हैं।</p>
+
+    <p><strong>2 - मूल्य निर्धारण और भुगतान</strong><br>
+    सभी कीमतें रुपये में हैं और बिना सूचना के बदल सकती हैं। हम विभिन्न भुगतान विकल्प प्रदान करते हैं और सुरक्षित लेनदेन सुनिश्चित करते हैं।</p>
+
+    <p><strong>3 - रिफंड और रद्दीकरण</strong><br>
+    अगर उत्पाद अप्रयुक्त है और मूल पैकेजिंग में है तो 3 दिनों के भीतर रिटर्न या एक्सचेंज संभव है, साथ ही वैध रसीद आवश्यक है।</p>
+
+    <p><strong>4 - शिपिंग और डिलीवरी</strong><br>
+    ऑर्डर 1-3 कार्य दिवसों में प्रोसेस किया जाता है। डिलीवरी समय स्थान और शिपिंग विधि पर निर्भर करता है।</p>
+
+    <p><strong>5 - गोपनीयता नीति</strong><br>
+    हम आपकी गोपनीयता का सम्मान करते हैं। खरीद के दौरान एकत्र की गई व्यक्तिगत जानकारी को केवल ऑर्डर प्रोसेसिंग और ग्राहक सेवा के लिए उपयोग किया जाता है।</p>
+
+    <p>Inflamed Drips के साथ खरीदारी करने के लिए धन्यवाद!</p>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <ul>
+        <li><a href="luxic.html">गृह</a></li>
+        <li><a href="shop.html">खरीदी</a></li>
+        <li><a href="service.html">सेवा</a></li>
+        <li><a href="contact.html">संपर्क</a></li>
+        <li><a href="privacy.html">गोपनीयता</a></li>
+      </ul>
+      <p>📧 inflameddrips.inofficial@gmail.com</p>
+    </div>
+    <div class="footer-bottom">
+        <!-- Social Media Icons -->
+<div style="margin: 20px 0;">
+  <a href="https://www.instagram.com/inflameddrips.in" target="_blank" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" width="24" style="vertical-align: middle;">
+  </a>
+  <a href="#" style="margin: 0 10px; color: #fff; text-decoration: none;">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" width="24" style="vertical-align: middle;">
+  </a>
+</div>
+
+      <p>&copy; Inflamed Drips.org</p>
+      <p>Powered by Odoo - The #1 Open Source eCommerce</p>
+    </div>
+  </footer>
+</body>
+</html>

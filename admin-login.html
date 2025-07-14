@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <style>
+    :root {
+      --bg-color: #f2f2f2;
+      --text-color: #000;
+      --box-bg: #fff;
+      --header-bg: #000;
+      --header-text: #fff;
+      --footer-bg: #000;
+      --footer-text: #fff;
+    }
+
+    body.dark-theme {
+      --bg-color: #121212;
+      --text-color: #fff;
+      --box-bg: #1f1f1f;
+      --header-bg: #1f1f1f;
+      --header-text: #fff;
+      --footer-bg: #1f1f1f;
+      --footer-text: #ccc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      color: var(--header-text);
+      padding: 15px 20px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    nav a {
+      color: var(--header-text);
+      margin: 0 10px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      color: var(--header-text);
+      border: 1px solid var(--header-text);
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+
+    .login-box {
+      background-color: var(--box-bg);
+      color: var(--text-color);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 320px;
+      max-width: 90%;
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .login-box img {
+      width: 80px;
+      margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .show-password {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .show-password input {
+      margin-right: 6px;
+    }
+
+    footer {
+      background-color: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .social-icons {
+      margin-bottom: 10px;
+    }
+
+    .social-icons a {
+      margin: 0 8px;
+      display: inline-block;
+    }
+
+    .social-icons img {
+      width: 24px;
+      height: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+  <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    <div class="logo">Inflamed Drips</div>
+    <div style="flex: 1; display: flex; justify-content: center;">
+      <nav style="display: flex; gap: 15px;">
+        <a href="luxic.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div style="min-width: fit-content;">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    </div>
+  </div>
+</header>
+
+  <!-- Login Box -->
+  <div class="login-box">
+    <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Admin Logo" />
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    
+    <div class="show-password">
+      <input type="checkbox" id="showPwd" onchange="togglePassword()" />
+      <label for="showPwd">Show Password</label>
+    </div>
+
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-icons">
+      <a href="https://www.instagram.com/inflameddrips.in" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      </a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+    </div>
+    <div>📧 inflameddrips.inofficial@gmail.com</div>
+    <div style="margin-top: 10px; font-size: 13px;">Powered by Odoo - The #1 Open Source eCommerce<br>© Inflamed Drips.org</div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Auto-redirect if already logged in
+    if (localStorage.getItem("isAdmin") === "true") {
+      window.location.href = "admin.html";
+    }
+
+    // Password toggle
+    function togglePassword() {
+      const pwdField = document.getElementById("password");
+      pwdField.type = pwdField.type === "password" ? "text" : "password";
+    }
+
+    // Login function
+    async function login() {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      try {
+        const res = await fetch("https://script.google.com/macros/s/AKfycbyEdozpLcRZkZvfBoA9tOmX3F5_3VAv2jo0wjN27XhNb9OTf9_BWZBhwpVddQEbOsE/exec");
+        const users = await res.json();
+
+        const match = users.find(user =>
+          user.Username === username && user.Password === password
+        );
+
+        if (match) {
+          localStorage.setItem("isAdmin", "true");
+          window.location.href = "admin.html";
+        } else {
+          alert("❌ Invalid credentials. Please try again.");
+        }
+      } catch (err) {
+        alert("⚠️ Error connecting. Check your internet or contact support.");
+        console.error(err);
+      }
+    }
+
+    // Theme toggle with memory
+    function toggleTheme() {
+      document.body.classList.toggle("dark-theme");
+      localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
+    }
+
+    // Load stored theme
+    window.onload = function () {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-theme");
+      }
+    }
+  </script>
+</body>
+</html>

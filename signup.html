@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login / Sign Up - Inflamed Drips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg: #f2f2f2;
+      --text: #000000;
+      --header-bg: #000000;
+      --header-text: #ffffff;
+      --card-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #121212;
+      --text: #f0f0f0;
+      --header-bg: #1e1e1e;
+      --header-text: #ffffff;
+      --card-bg: #1c1c1c;
+    }
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s ease;
+    }
+    header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-left { font-size: 24px; font-weight: bold; }
+    .nav-center a {
+      margin: 0 10px;
+      color: var(--header-text);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .nav-center a:hover { text-decoration: underline; }
+    .nav-right { display: flex; align-items: center; gap: 15px; }
+    .theme-toggle {
+      background: transparent;
+      color: var(--header-text);
+      border: 1px solid var(--header-text);
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 60px auto 40px;
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%; padding: 10px; margin-top: 10px;
+      border-radius: 5px; border: 1px solid #ccc; background: #fff;
+    }
+    body.dark input {
+      background: #2a2a2a; color: #fff; border: 1px solid #444;
+    }
+    button {
+      width: 100%; padding: 10px; margin-top: 20px;
+      background: black; color: white;
+      border: none; border-radius: 5px;
+      font-size: 16px; cursor: pointer;
+    }
+    .toggle-link, .forgot-password {
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .toggle-link:hover, .forgot-password:hover { text-decoration: underline; }
+    h2 { text-align: center; }
+    footer {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 20px;
+      text-align: center;
+    }
+    .footer-links { margin-bottom: 10px; }
+    .footer-links a {
+      color: #fff;
+      margin: 0 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .footer-links a:hover { text-decoration: underline; }
+    .social-links a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .nav-center {
+        width: 100%; text-align: center; margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-left">Inflamed Drips</div>
+    <div class="nav-center">
+      <a href="luxic.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="services.html">Services</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="about.html">About Us</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="shiping.html">Shipping</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div id="loginSection" style="display:block;">
+      <h2>Login</h2>
+      <input type="email" placeholder="Email" id="loginEmail" required />
+      <input type="password" placeholder="Password" id="loginPassword" required />
+      <button onclick="handleLogin()">Login</button>
+      <div class="forgot-password" onclick="window.location.href='forgot-password.html'">Forgot Password?</div>
+      <div class="toggle-link" onclick="toggleForm('signup')">Don't have an account? Sign Up</div>
+    </div>
+
+    <div id="signupSection" style="display:none;">
+      <h2>Sign Up</h2>
+      <input type="text" placeholder="Name" id="signupName" required />
+      <input type="email" placeholder="Email" id="signupEmail" required />
+      <input type="text" placeholder="Phone" id="signupPhone" required />
+      <input type="text" placeholder="Address" id="signupAddress" required />
+      <input type="password" placeholder="Password" id="signupPassword" required />
+      <label for="profilePic">Upload Profile Picture (optional):</label>
+      <input type="file" id="profilePic" accept="image/*" />
+      <button onclick="handleSignup()">Sign Up</button>
+      <div class="toggle-link" onclick="toggleForm('login')">Already have an account? Login</div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-links">
+      <a href="luxic.html">Home</a> |
+      <a href="shop.html">Shop</a> |
+      <a href="services.html">Services</a> |
+      <a href="pricing.html">Pricing</a> |
+      <a href="about.html">About Us</a> |
+      <a href="terms.html">Terms</a> |
+      <a href="privacy.html">Privacy</a> |
+      <a href="shiping.html">Shipping</a>
+    </div>
+    <p>&copy; 2025 Inflamed Drips. All Rights Reserved.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz7k8ViW3IH7MtMN_cfeNIO7yq7qp52_i3P_n0XsvPzR3qjTvG73vIaM4nGAsA6vpdbLQ/exec";
+
+    function toggleForm(section) {
+      document.getElementById("signupSection").style.display = section === "signup" ? "block" : "none";
+      document.getElementById("loginSection").style.display = section === "login" ? "block" : "none";
+    }
+
+    function handleSignup() {
+      const fileInput = document.getElementById("profilePic");
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function () {
+        const user = {
+          name: document.getElementById("signupName").value,
+          email: document.getElementById("signupEmail").value,
+          phone: document.getElementById("signupPhone").value,
+          address: document.getElementById("signupAddress").value,
+          password: document.getElementById("signupPassword").value,
+          profileImage: file ? reader.result : ""
+        };
+
+        fetch(scriptURL + '?action=signup', {
+          method: 'POST',
+          body: JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("Signup successful! Please login.");
+            toggleForm("login");
+          } else {
+            alert("Signup failed: " + data.message);
+          }
+        });
+      };
+
+      if (file) reader.readAsDataURL(file);
+      else reader.onload();
+    }
+
+    function handleLogin() {
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      fetch(scriptURL + '?action=login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Login successful!");
+          window.location.href = "profile.html";
+        } else {
+          alert("Invalid credentials. Please try again.");
+        }
+      });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+    });
+  </script>
+</body>
+</html>

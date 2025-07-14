@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Profile - Inflamed Drips</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #f5f5f5;
+      --text: #000000;
+      --header-bg: #000000;
+      --header-text: #ffffff;
+      --card-bg: #ffffff;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --text: #f0f0f0;
+      --header-bg: #1e1e1e;
+      --header-text: #ffffff;
+      --card-bg: #1c1c1c;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s ease;
+    }
+
+    /* Header */
+    header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-left {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-center a {
+      margin: 0 10px;
+      color: var(--header-text);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .nav-center a:hover {
+      text-decoration: underline;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .theme-toggle {
+      background: transparent;
+      color: var(--header-text);
+      border: 1px solid var(--header-text);
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* Profile Container */
+    .profile-container {
+      max-width: 500px;
+      margin: 60px auto 40px;
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    body.dark input,
+    body.dark textarea {
+      background: #2a2a2a;
+      color: #fff;
+      border: 1px solid #444;
+    }
+
+    img {
+      display: block;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin: 10px auto 20px;
+      object-fit: cover;
+    }
+
+    .btn {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #222;
+    }
+
+    .logout-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #888;
+    }
+
+    .logout-link a {
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .logout-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .footer-links {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: #fff;
+      margin: 0 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .social-links a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .nav-center {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-left">Inflamed Drips</div>
+    <div class="nav-center">
+      <a href="luxic.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="services.html">Services</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="about.html">About Us</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="shiping.html">Shipping</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    </div>
+  </header>
+
+  <!-- Profile Section -->
+  <div class="profile-container">
+    <h2>User Profile</h2>
+
+    <img id="profilePicPreview" src="" alt="Profile Image">
+
+    <label for="name">Name</label>
+    <input type="text" id="name">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" disabled>
+
+    <label for="phone">Phone</label>
+    <input type="text" id="phone">
+
+    <label for="address">Address</label>
+    <textarea id="address" rows="3"></textarea>
+
+    <label for="newProfilePic">Change Profile Picture</label>
+    <input type="file" id="newProfilePic" accept="image/*">
+
+    <button class="btn" onclick="updateProfile()">Update Profile</button>
+
+    <div class="logout-link">
+      <p><a href="#" onclick="logout()">Logout</a></p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="luxic.html">Home</a> |
+      <a href="shop.html">Shop</a> |
+      <a href="services.html">Services</a> |
+      <a href="pricing.html">Pricing</a> |
+      <a href="about.html">About Us</a> |
+      <a href="terms.html">Terms</a> |
+      <a href="privacy.html">Privacy</a> |
+      <a href="shiping.html">Shipping</a>
+    </div>
+    <p>&copy; 2025 Inflamed Drips. All Rights Reserved.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+    </div>
+  </footer>
+
+  <!-- Script -->
+  <script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  const loggedIn = localStorage.getItem("loggedIn") === "true";
+
+  if (!user || !loggedIn) {
+    alert("Access denied. Please login first.");
+    window.location.href = "signin.html";
+  }
+
+  document.getElementById("name").value = user.name || "";
+  document.getElementById("email").value = user.email || "";
+  document.getElementById("phone").value = user.phone || "";
+  document.getElementById("address").value = user.address || "";
+  document.getElementById("profilePicPreview").src = user.profileImage || "default.jpg";
+
+  document.getElementById("newProfilePic").addEventListener("change", function () {
+    const file = this.files[0];
+    const reader = new FileReader();
+    reader.onload = function () {
+      document.getElementById("profilePicPreview").src = reader.result;
+      user.profileImage = reader.result;
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function updateProfile() {
+    user.name = document.getElementById("name").value;
+    user.phone = document.getElementById("phone").value;
+    user.address = document.getElementById("address").value;
+    localStorage.setItem("user", JSON.stringify(user));
+    alert("Profile updated successfully!");
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "signin.html";
+  }
+
+  function toggleTheme() {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.body.classList.add("dark");
+    }
+  });
+</script>
+
+</body>
+</html>
