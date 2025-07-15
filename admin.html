@@ -94,6 +94,13 @@
       min-width: 200px;
     }
 
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -113,14 +120,6 @@
 
     tr:hover {
       background-color: #f1f1f1;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 10px;
-      margin: 10px 0;
     }
 
     button {
@@ -169,6 +168,24 @@
       .filters, .actions {
         flex-direction: column;
       }
+
+      table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+      }
+
+      th {
+        text-align: right;
+        padding-right: 15px;
+      }
+
+      td {
+        text-align: left;
+        padding-left: 15px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+      }
     }
   </style>
 </head>
@@ -198,13 +215,14 @@
     <h2>Admin Dashboard - Payment Records</h2>
 
     <div class="filters">
-      <input type="text" id="searchInput" placeholder="Search by name, email, item or txn ID..." onkeyup="filterTable()" />
-      <input type="date" id="dateFilter" onchange="filterTable()" />
-      <select id="modeFilter" onchange="filterTable()">
+      <input type="text" id="searchInput" placeholder="Search by name, email, item or txn ID..." />
+      <input type="date" id="dateFilter" />
+      <select id="modeFilter">
         <option value="">All Modes</option>
         <option value="UPI">UPI</option>
         <option value="Cash on Delivery">Cash on Delivery</option>
       </select>
+      <button onclick="filterTable()">Apply Filters</button>
     </div>
 
     <div class="actions">
@@ -246,7 +264,7 @@
   </footer>
 
   <script>
-    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbxzvXiwsiyPXgD24lUEUIX2BRn8BNGf-_CUdsqRjrpFyCJlc4-0NSOOSew34XPRrc9o/exec";
+    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwhZOSjlMJOQxesW4lq7aN7U2PF8DrJUE0Hsx9cv1ymLI6YhewdFmFrUF3dy399McZX_g/exec";
     let globalData = [];
 
     fetch(SHEET_API_URL)
@@ -259,26 +277,35 @@
     function renderTable(data) {
       const tbody = document.getElementById("dataBody");
       tbody.innerHTML = "";
-      data.forEach(row => {
-        const invoiceURL = row["Invoice URL"] || "#";
-        const screenshotURL = row["Screenshot URL"] || "#";
-        const mode = row["Mode"] || "UPI";
 
+      data.forEach(row => {
         const tr = document.createElement("tr");
+
+        const timestamp = row["Timestamp"] || "-";
+        const name = row["Name"] || row["Full Name"] || "-";
+        const email = row["Email"] || row["Email Address"] || "-";
+        const phone = row["Phone"] || row["Mobile"] || "-";
+        const address = row["Address"] || "-";
+        const item = row["Item"] || row["Items"] || row["Product Name"] || "-";
+        const txnId = row["Txn ID"] || row["Transaction ID"] || "-";
+        const mode = row["Mode"] || row["Payment Mode"] || "UPI";
+        const screenshot = row["Screenshot"] || row["Payment Screenshot"] || "#";
+        const invoice = row["Invoice"] || row["Invoice URL"] || "#";
+
         tr.innerHTML = `
-          <td>${row.Timestamp}</td>
-          <td>${row.Name}</td>
-          <td>${row.Email}</td>
-          <td>${row.Phone}</td>
-          <td>${row.Address}</td>
-          <td>${row.Item}</td>
-          <td>${row["Txn ID"]}</td>
+          <td>${timestamp}</td>
+          <td>${name}</td>
+          <td>${email}</td>
+          <td>${phone}</td>
+          <td>${address}</td>
+          <td>${item}</td>
+          <td>${txnId}</td>
           <td>${mode}</td>
-          <td><a href="${screenshotURL}" target="_blank">View</a></td>
-          <td><a href="${invoiceURL}" target="_blank">Invoice</a></td>
+          <td><a href="${screenshot}" target="_blank">View</a></td>
+          <td><a href="${invoice}" target="_blank">Invoice</a></td>
           <td>
-            <button class="email-btn" onclick="sendEmailReminder('${row.Email}', '${row.Name}')">Email</button>
-            <button class="whatsapp-btn" onclick="sendWhatsAppReminder('${row.Phone}', '${row.Name}', '${invoiceURL}')">WA</button>
+            <button class="email-btn" onclick="sendEmailReminder('${email}', '${name}')">Email</button>
+            <button class="whatsapp-btn" onclick="sendWhatsAppReminder('${phone}', '${name}', '${invoice}')">WA</button>
           </td>
         `;
         tbody.appendChild(tr);
@@ -293,8 +320,8 @@
       const filtered = globalData.filter(row => {
         const values = Object.values(row).map(v => String(v).toLowerCase());
         const searchMatch = values.some(v => v.includes(search));
-        const dateMatch = !date || new Date(row.Timestamp).toISOString().split("T")[0] === date;
-        const modeMatch = !mode || (row.Mode || 'UPI') === mode;
+        const dateMatch = !date || new Date(row["Timestamp"]).toISOString().split("T")[0] === date;
+        const modeMatch = !mode || row["Payment Mode"] === mode || row["Mode"] === mode;
         return searchMatch && dateMatch && modeMatch;
       });
 
@@ -316,13 +343,14 @@
     }
 
     function downloadInvoiceArchive() {
-      const zipLink = "https://drive.google.com/uc?id=ZIP_FILE_ID&export=download";
-      window.open(zipLink, "_blank");
+      const folderId = "1ShZSPdVylRTY-X1Q5Y7D0f98nv9qyhhPj4Zzq5ltagdM88B_RgUjyfmlOeJslz89HS0P6Tz3";
+      const folderLink = `https://drive.google.com/drive/folders/${folderId}`;
+      window.open(folderLink, "_blank");
     }
 
     function sendEmailReminder(email, name) {
       const subject = `Reminder: Your Order at Inflamed Drips`;
-      const body = `Hi ${name},\n\nThis is a friendly reminder regarding your recent order with us.\nPlease check your invoice and let us know if you need assistance.\n\nThank you,\nInflamed Drips Team`;
+      const body = `Hi ${name},\n\nThis is a reminder regarding your order. Please review the invoice.\n\nThank you,\nInflamed Drips Team`;
       window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
     }
 
