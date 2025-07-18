@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Payment - Inflamed Drips</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     :root {
       --bg-color: #f4f4f4;
@@ -40,49 +39,49 @@
     }
 
     .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-.nav-left {
-  font-size: 22px;
-  font-weight: bold;
-  color: var(--header-text);
-}
+    .nav-left {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--header-text);
+    }
 
-.nav-center {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex: 1;
-}
+    .nav-center {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex: 1;
+    }
 
-.nav-center a {
-  color: var(--header-text);
-  text-decoration: none;
-  font-size: 14px;
-}
+    .nav-center a {
+      color: var(--header-text);
+      text-decoration: none;
+      font-size: 14px;
+    }
 
-.nav-center a:hover {
-  text-decoration: underline;
-}
+    .nav-center a:hover {
+      text-decoration: underline;
+    }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-}
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
 
-.theme-toggle {
-  background: transparent;
-  color: var(--header-text);
-  border: 1px solid var(--header-text);
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 13px;
-}
+    .theme-toggle {
+      background: transparent;
+      color: var(--header-text);
+      border: 1px solid var(--header-text);
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
 
     .container {
       background: #fff;
@@ -210,14 +209,12 @@
 <header>
   <div class="navbar">
     <div class="nav-left">Inflamed Drips</div>
-
     <div class="nav-center">
-      <a href="luxic.html">Home</a>
+      <a href="index.html">Home</a>
       <a href="shop.html">Shop</a>
       <a href="privacy.html">Privacy</a>
       <a href="contact.html">Contact</a>
     </div>
-
     <div class="nav-right">
       <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
     </div>
@@ -233,9 +230,9 @@
 
   <div class="upi-box" id="upiBox">
     <h3 id="upiTitle">Scan or Tap to Pay</h3>
-    <img id="qrCode" src="" alt="Scan to Pay QR" />
+    <img id="image/IMG-qrCode" src="" alt="Scan to Pay QR" />
     <p><strong>UPI ID:</strong>
-      <a id="upiLink" href="#" target="_blank">ms8875263-1@okhdfcbank</a>
+      <a id="upiLink" href="#" target="_blank">9286345009@fam</a>
     </p>
     <p><em>Scan or tap to pay with UPI apps</em></p>
   </div>
@@ -273,22 +270,23 @@
 
 <footer>
   <div>
-    <a href="luxic.html">Home</a>
+    <a href="index.html">Home</a>
     <a href="contact.html">Contact</a>
     <a href="privacy.html">Privacy Policy</a>
   </div>
   <div class="social-icons">
     <a href="https://www.instagram.com/InflamedDrips.in" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+    <a href="https://wa.me/919286345009" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
     <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
     <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
     <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
     <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
   </div>
-  <p>📧 inflameddrips.inofficial@gmail.com</p>
-  <p>© Inflamed Drips.org</p>
+  <p>📧 inflameddrips.official@gmail.com</p>
+  <p>Copyright © 2025 Inflamed Drips. All rights reserved.</p>
 </footer>
 
+<!-- Entire HTML is same as your provided code until the <script> block -->
 <script>
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-theme");
@@ -355,9 +353,9 @@
 
   togglePaymentFields();
 
-  async function submitForm() {
+  function submitForm() {
     const mode = document.getElementById("paymentMode").value;
-    const txnId = document.getElementById("txnId").value;
+    const txnId = document.getElementById("txnId").value.trim();
     const screenshot = document.getElementById("screenshot").files[0];
 
     if (mode === "upi" && (!txnId || !screenshot)) {
@@ -365,57 +363,30 @@
       return;
     }
 
-    let imageBase64 = "";
-    if (screenshot) {
-      const reader = new FileReader();
-      reader.readAsDataURL(screenshot);
-      await new Promise(resolve => {
-        reader.onloadend = () => {
-          imageBase64 = reader.result;
-          resolve();
-        };
-      });
-    }
+    const name = encodeURIComponent(user.name);
+    const email = encodeURIComponent(user.email);
+    const phone = encodeURIComponent(user.phone);
+    const address = encodeURIComponent(user.address);
+    const item = encodeURIComponent(items);
+    const price = encodeURIComponent(total);
+    const txn = encodeURIComponent(mode === "upi" ? txnId : "NA");
+    const paymode = encodeURIComponent(mode === "upi" ? "UPI Payment" : "Cash on Delivery");
 
-    const payload = {
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
-      txnId: mode === "upi" ? txnId : "COD",
-      item: items,
-      price: total,
-      imageBase64: imageBase64,
-      mode: mode
-    };
+    const formURL = `https://docs.google.com/forms/d/e/1FAIpQLSd1y9W32HtoUiD9SDUe8iQeOa4a81CHueGG_YoTbb2CY3_0qA/viewform?usp=pp_url` +
+  `&entry.1466918485=${name}` +           // Name
+  `&entry.980509058=${email}` +           // Email
+  `&entry.829184286=${phone}` +           // Phone
+  `&entry.81152759=${address}` +          // Address
+  `&entry.1536144730=${item}` +           // Items
+  `&entry.139106175=${price}` +           // Total Price
+  `&entry.602707723=${txn}` +             // Transaction ID
+  `&entry.483401712=${paymode}`;          // Payment Mode
 
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxzvXiwsiyPXgD24lUEUIX2BRn8BNGf-_CUdsqRjrpFyCJlc4-0NSOOSew34XPRrc9o/exec";
-
-    try {
-      const res = await fetch(scriptURL, {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: { "Content-Type": "application/json" }
-      });
-
-      const responseText = await res.text();
-      console.log("✅ Script Response:", responseText);
-
-      if (res.ok && responseText.includes("Success")) {
-        localStorage.removeItem("selectedProduct");
-        localStorage.removeItem("cart");
-        alert("✅ Order submitted successfully!");
-        window.location.href = "thankyou.html";
-      } else {
-        alert("❌ Submission failed: " + responseText);
-      }
-
-    } catch (error) {
-      console.error("❌ Error:", error);
-      alert("An error occurred while submitting the form.");
-    }
+    alert("Redirecting to payment confirmation form. Please upload your screenshot there.");
+    window.open(formURL, "_blank");
   }
 </script>
+
 
 </body>
 </html>

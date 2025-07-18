@@ -5,20 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Thank You</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --header-bg: #000000;
+      --header-text: #ffffff;
+      --card-bg: #ffffff;
+    }
+    body.dark {
+      --bg: #121212;
+      --text: #f0f0f0;
+      --header-bg: #1e1e1e;
+      --header-text: #ffffff;
+      --card-bg: #1c1c1c;
+    }
     body {
-      background-color: #ffffff;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: 0.3s ease;
+    }
+    header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-left { font-size: 24px; font-weight: bold; }
+    .nav-center a {
+      margin: 0 10px;
+      color: var(--header-text);
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .nav-center a:hover { text-decoration: underline; }
+    .nav-right { display: flex; align-items: center; gap: 15px; }
+    .theme-toggle {
+      background: transparent;
+      color: var(--header-text);
+      border: 1px solid var(--header-text);
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .content {
       text-align: center;
       padding: 100px 20px;
     }
     h1 {
-      color: #000000;
       font-size: 32px;
       margin-bottom: 20px;
     }
     p {
-      color: #333333;
       font-size: 18px;
     }
     a.button {
@@ -30,40 +76,123 @@
       text-decoration: none;
       border-radius: 4px;
     }
+
+    footer {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 20px;
+      text-align: center;
+    }
+    .footer-links {
+      margin-bottom: 10px;
+    }
+    .footer-links a {
+      color: #fff;
+      margin: 0 8px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+    .social-links a {
+      color: #fff;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    @media (max-width: 768px) {
+      .nav-center {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Thank You for Your Purchase!</h1>
-  <p>Your order has been placed successfully.</p>
-  <a href="shop.html" class="button">Continue Shopping</a>
+  <!-- ✅ Header -->
+  <header>
+    <div class="nav-left">Inflamed Drips</div>
+    <div class="nav-center">
+      <a href="index.html">Home</a>
+      <a href="shop.html">Shop</a>
+      <a href="services.html">Services</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="about.html">About Us</a>
+      <a href="terms.html">Terms</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="shiping.html">Shipping</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    </div>
+  </header>
 
+  <!-- ✅ Thank You Content -->
+  <div class="content">
+    <h1>Thank You for Your Purchase!</h1>
+    <p>Your order has been placed successfully.</p>
+    <a href="shop.html" class="button">Continue Shopping</a>
+  </div>
+
+  <!-- ✅ Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="index.html">Home</a> |
+      <a href="shop.html">Shop</a> |
+      <a href="services.html">Services</a> |
+      <a href="pricing.html">Pricing</a> |
+      <a href="about.html">About Us</a> |
+      <a href="terms.html">Terms</a> |
+      <a href="privacy.html">Privacy</a> |
+      <a href="shiping.html">Shipping</a>
+    </div>
+    <p>Copyright &copy; 2025 Inflamed Drips. All Rights Reserved.</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+      <a href="https://wa.me/919286345009" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </footer>
+
+  <!-- ✅ PDF Script -->
   <script>
-  window.onload = function () {
-    const { jsPDF } = window.jspdf;
-    const data = JSON.parse(localStorage.getItem("invoiceData"));
-    if (!data) return;
+    window.onload = function () {
+      const { jsPDF } = window.jspdf;
+      const data = JSON.parse(localStorage.getItem("invoiceData"));
+      if (!data) return;
 
-    const doc = new jsPDF();
+      const doc = new jsPDF();
 
-    doc.setFontSize(16);
-    doc.text("Invoice - Inflamed Drips", 20, 20);
+      doc.setFontSize(16);
+      doc.text("Invoice - Inflamed Drips", 20, 20);
 
-    doc.setFontSize(12);
-    doc.text(`Name: ${data.name}`, 20, 35);
-    doc.text(`Email: ${data.email}`, 20, 45);
-    doc.text(`Phone: ${data.phone}`, 20, 55);
-    doc.text(`Address: ${data.address}`, 20, 65);
-    doc.text(`Items: ${data.item}`, 20, 75);
-    doc.text(`Amount: ₹${data.price}`, 20, 85);
-    doc.text(`Payment Mode: ${data.mode === "cod" ? "Cash on Delivery" : "UPI"}`, 20, 95);
-    doc.text(`Transaction ID: ${data.txnId}`, 20, 105);
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 115);
+      doc.setFontSize(12);
+      doc.text(`Name: ${data.name}`, 20, 35);
+      doc.text(`Email: ${data.email}`, 20, 45);
+      doc.text(`Phone: ${data.phone}`, 20, 55);
+      doc.text(`Address: ${data.address}`, 20, 65);
+      doc.text(`Items: ${data.item}`, 20, 75);
+      doc.text(`Amount: ₹${data.price}`, 20, 85);
+      doc.text(`Payment Mode: ${data.mode === "cod" ? "Cash on Delivery" : "UPI"}`, 20, 95);
+      doc.text(`Transaction ID: ${data.txnId}`, 20, 105);
+      doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 115);
 
-    doc.save("Invoice_InflamedDrips.pdf");
+      doc.save("Invoice_InflamedDrips.pdf");
 
-    // Optional: Clean up
-    localStorage.removeItem("invoiceData");
-  };
-</script>
+      localStorage.removeItem("invoiceData");
+    };
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.body.classList.add('dark');
+    });
+  </script>
 </body>
 </html>

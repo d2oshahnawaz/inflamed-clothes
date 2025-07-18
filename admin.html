@@ -139,6 +139,15 @@
       background-color: #25D366;
     }
 
+    .remove-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
     .logout-btn {
       float: right;
       background-color: red;
@@ -194,7 +203,7 @@
     <div class="navbar">
       <div class="logo">Inflamed Drips</div>
       <nav>
-        <a href="luxic.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="shop.html">Shop</a>
         <a href="privacy.html">Privacy</a>
         <a href="contact.html">Contact</a>
@@ -244,6 +253,7 @@
           <th>Screenshot</th>
           <th>Invoice</th>
           <th>Reminder</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody id="dataBody"></tbody>
@@ -252,122 +262,156 @@
 
   <footer>
     <div class="social-icons">
-      <a href="https://www.instagram.com/inflameddrips.in" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
+      <a href="#" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+      </a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
     </div>
-    <div style="margin-top: 10px;">📧 inflameddrips.inofficial@gmail.com</div>
-    <div style="margin-top: 10px; font-size: 13px;">Powered by Odoo - The #1 Open Source eCommerce<br>© Inflamed Drips.org</div>
+    <div style="margin-top: 20px;">📧 inflameddrips.official@gmail.com</div>
+    <div style="margin-top: 10px; font-size: 13px;">
+      Copyright © 2025 Inflamed Drips. All rights reserved.
+    </div>
   </footer>
 
-  <script>
-    const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbwhZOSjlMJOQxesW4lq7aN7U2PF8DrJUE0Hsx9cv1ymLI6YhewdFmFrUF3dy399McZX_g/exec";
-    let globalData = [];
+  <!-- KEEP YOUR EXISTING HTML CODE as is... UNTIL the <script> tag at the bottom -->
 
-    fetch(SHEET_API_URL)
-      .then(res => res.json())
-      .then(data => {
-        globalData = data;
-        renderTable(data);
-      });
+<script>
+  const SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzdJtqKEOJqbbAHsuSw74ykTMLpT7UlLj3V8Wz6dVF7jcDvIaIV-Kjfour4cedpMDJC/exec";
+  let globalData = [];
+  let removedTimestamps = JSON.parse(localStorage.getItem("removedTimestamps") || "[]"); // ✅ load from localStorage
 
-    function renderTable(data) {
-      const tbody = document.getElementById("dataBody");
-      tbody.innerHTML = "";
+  fetch(SHEET_API_URL)
+    .then(res => res.json())
+    .then(data => {
+      globalData = data;
+      renderTable(data);
+    });
 
-      data.forEach(row => {
-        const tr = document.createElement("tr");
+  function renderTable(data) {
+    const tbody = document.getElementById("dataBody");
+    tbody.innerHTML = "";
 
-        const timestamp = row["Timestamp"] || "-";
-        const name = row["Name"] || row["Full Name"] || "-";
-        const email = row["Email"] || row["Email Address"] || "-";
-        const phone = row["Phone"] || row["Mobile"] || "-";
-        const address = row["Address"] || "-";
-        const item = row["Item"] || row["Items"] || row["Product Name"] || "-";
-        const txnId = row["Txn ID"] || row["Transaction ID"] || "-";
-        const mode = row["Mode"] || row["Payment Mode"] || "UPI";
-        const screenshot = row["Screenshot"] || row["Payment Screenshot"] || "#";
-        const invoice = row["Invoice"] || row["Invoice URL"] || "#";
+    data.forEach(row => {
+      const timestamp = row["Timestamp"] || "-";
+      if (removedTimestamps.includes(timestamp)) return; // ✅ Skip removed rows
 
-        tr.innerHTML = `
-          <td>${timestamp}</td>
-          <td>${name}</td>
-          <td>${email}</td>
-          <td>${phone}</td>
-          <td>${address}</td>
-          <td>${item}</td>
-          <td>${txnId}</td>
-          <td>${mode}</td>
-          <td><a href="${screenshot}" target="_blank">View</a></td>
-          <td><a href="${invoice}" target="_blank">Invoice</a></td>
-          <td>
-            <button class="email-btn" onclick="sendEmailReminder('${email}', '${name}')">Email</button>
-            <button class="whatsapp-btn" onclick="sendWhatsAppReminder('${phone}', '${name}', '${invoice}')">WA</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+      const name = row["Name"] || row["Full Name"] || "-";
+      const email = row["Email"] || row["Email Address"] || "-";
+      const phone = row["Phone"] || row["Mobile"] || "-";
+      const address = row["Address"] || "-";
+      const item = row["Item"] || row["Items"] || row["Product Name"] || "-";
+      const txnId = row["Txn ID"] || row["Transaction ID"] || "-";
+      const mode = row["Mode"] || row["Payment Mode"] || "UPI";
+      const screenshot = row["Screenshot"] || row["Payment Screenshot"] || "#";
+      const invoice = row["Invoice"] || row["Invoice URL"] || "#";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${timestamp}</td>
+        <td>${name}</td>
+        <td>${email}</td>
+        <td>${phone}</td>
+        <td>${address}</td>
+        <td>${item}</td>
+        <td>${txnId}</td>
+        <td>${mode}</td>
+        <td><a href="${screenshot}" target="_blank">View</a></td>
+        <td><a href="${invoice}" target="_blank">Invoice</a></td>
+        <td>
+          <button class="email-btn" onclick="sendEmailReminder('${email}', '${name}')">Email</button>
+          <button class="whatsapp-btn" onclick="sendWhatsAppReminder('${phone}', '${name}', '${invoice}')">WA</button>
+        </td>
+        <td>
+          <button class="remove-btn" onclick="removeRow(this)">🗑️ Remove</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filterTable() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const date = document.getElementById("dateFilter").value;
+    const mode = document.getElementById("modeFilter").value;
+
+    const filtered = globalData.filter(row => {
+      const values = Object.values(row).map(v => String(v).toLowerCase());
+      const searchMatch = values.some(v => v.includes(search));
+      const dateMatch = !date || new Date(row["Timestamp"]).toISOString().split("T")[0] === date;
+      const modeMatch = !mode || row["Payment Mode"] === mode || row["Mode"] === mode;
+      return searchMatch && dateMatch && modeMatch;
+    });
+
+    renderTable(filtered);
+  }
+
+  function exportCSV() {
+    const rows = document.querySelectorAll("table tr");
+    const csv = Array.from(rows).map(row => {
+      const cols = row.querySelectorAll("th, td");
+      return Array.from(cols).map(col => `"${col.innerText}"`).join(",");
+    }).join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "payment-records.csv";
+    link.click();
+  }
+
+  function downloadInvoiceArchive() {
+    const folderId = "14gTIoSL3EmipBJfDzmYVmt_ERjx8dApi";
+    const folderLink = `https://drive.google.com/drive/folders/${folderId}`;
+    window.open(folderLink, "_blank");
+  }
+
+  function sendEmailReminder(email, name) {
+    const subject = `Reminder: Your Order at Inflamed Drips`;
+    const body = `Hi ${name},\n\nThis is a reminder regarding your order. Please review the invoice.\n\nThank you,\nInflamed Drips Team`;
+    window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  }
+
+  function sendWhatsAppReminder(phone, name, invoiceLink) {
+    const cleanPhone = phone.replace(/\D/g, '');
+    const msg = `Hi ${name}, this is a reminder for your order at Inflamed Drips.\n\nInvoice: ${invoiceLink}\n\nThank you!`;
+    window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`);
+  }
+
+  function removeRow(button) {
+    if (confirm("Are you sure you want to remove this row?")) {
+      const row = button.closest("tr");
+      const timestamp = row.querySelector("td").textContent.trim();
+
+      if (!removedTimestamps.includes(timestamp)) {
+        removedTimestamps.push(timestamp);
+        localStorage.setItem("removedTimestamps", JSON.stringify(removedTimestamps)); // ✅ persist
+      }
+
+      row.remove();
     }
+  }
 
-    function filterTable() {
-      const search = document.getElementById("searchInput").value.toLowerCase();
-      const date = document.getElementById("dateFilter").value;
-      const mode = document.getElementById("modeFilter").value;
+  function logout() {
+    localStorage.removeItem("isAdmin");
+    window.location.href = "admin-login.html";
+  }
 
-      const filtered = globalData.filter(row => {
-        const values = Object.values(row).map(v => String(v).toLowerCase());
-        const searchMatch = values.some(v => v.includes(search));
-        const dateMatch = !date || new Date(row["Timestamp"]).toISOString().split("T")[0] === date;
-        const modeMatch = !mode || row["Payment Mode"] === mode || row["Mode"] === mode;
-        return searchMatch && dateMatch && modeMatch;
-      });
+  function toggleTheme() {
+    document.body.classList.toggle("dark-theme");
+  }
 
-      renderTable(filtered);
+  // ✅ Optional restore deleted rows button (call from dev tools or UI button)
+  function restoreDeletedRows() {
+    if (confirm("Restore all previously deleted rows?")) {
+      localStorage.removeItem("removedTimestamps");
+      removedTimestamps = [];
+      renderTable(globalData);
     }
-
-    function exportCSV() {
-      const rows = document.querySelectorAll("table tr");
-      const csv = Array.from(rows).map(row => {
-        const cols = row.querySelectorAll("th, td");
-        return Array.from(cols).map(col => `"${col.innerText}"`).join(",");
-      }).join("\n");
-
-      const blob = new Blob([csv], { type: "text/csv" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "payment-records.csv";
-      link.click();
-    }
-
-    function downloadInvoiceArchive() {
-      const folderId = "1ShZSPdVylRTY-X1Q5Y7D0f98nv9qyhhPj4Zzq5ltagdM88B_RgUjyfmlOeJslz89HS0P6Tz3";
-      const folderLink = `https://drive.google.com/drive/folders/${folderId}`;
-      window.open(folderLink, "_blank");
-    }
-
-    function sendEmailReminder(email, name) {
-      const subject = `Reminder: Your Order at Inflamed Drips`;
-      const body = `Hi ${name},\n\nThis is a reminder regarding your order. Please review the invoice.\n\nThank you,\nInflamed Drips Team`;
-      window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
-    }
-
-    function sendWhatsAppReminder(phone, name, invoiceLink) {
-      const cleanPhone = phone.replace(/\D/g, '');
-      const msg = `Hi ${name}, this is a reminder for your order at Inflamed Drips.\n\nInvoice: ${invoiceLink}\n\nThank you!`;
-      window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`);
-    }
-
-    function logout() {
-      localStorage.removeItem("isAdmin");
-      window.location.href = "admin-login.html";
-    }
-
-    function toggleTheme() {
-      document.body.classList.toggle("dark-theme");
-    }
-  </script>
+  }
+</script>
 </body>
 </html>
