@@ -230,7 +230,7 @@
 
   <div class="upi-box" id="upiBox">
     <h3 id="upiTitle">Scan or Tap to Pay</h3>
-    <img id="image/IMG-qrCode" src="" alt="Scan to Pay QR" />
+    <img id="qrCode" src="" alt="Scan to Pay QR" />
     <p><strong>UPI ID:</strong>
       <a id="upiLink" href="#" target="_blank">9286345009@fam</a>
     </p>
@@ -261,8 +261,6 @@
   <div id="upiFields">
     <label>Transaction ID</label>
     <input type="text" id="txnId" placeholder="Enter UPI Transaction ID">
-    <label>Upload Screenshot</label>
-    <input type="file" id="screenshot" accept="image/*">
   </div>
 
   <button onclick="submitForm()">Submit Order</button>
@@ -282,12 +280,17 @@
     <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
     <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
   </div>
-  <p>📧 inflameddrips.official@gmail.com</p>
+  <p style="margin: 5px 0;">
+    <img src="https://img.icons8.com/ios-filled/24/ffffff/new-post.png" alt="Email Icon" style="vertical-align: middle; width: 18px; margin-right: 5px;">
+    <a href="mailto:inflameddrips.official@gmail.com" style="color: #ccc; text-decoration: none;">
+      inflameddrips.official@gmail.com
+    </a>
+  </p>
   <p>Copyright © 2025 Inflamed Drips. All rights reserved.</p>
 </footer>
 
-<!-- Entire HTML is same as your provided code until the <script> block -->
 <script>
+window.onload = function () {
   if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-theme");
   }
@@ -296,6 +299,7 @@
     document.body.classList.toggle("dark-theme");
     localStorage.setItem("theme", document.body.classList.contains("dark-theme") ? "dark" : "light");
   }
+  window.toggleTheme = toggleTheme;
 
   let user;
   try {
@@ -304,6 +308,7 @@
   } catch (err) {
     alert("Please login first.");
     window.location.href = "signin.html";
+    return;
   }
 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -320,6 +325,7 @@
   } else {
     alert("No product selected. Redirecting...");
     window.location.href = "shop.html";
+    return;
   }
 
   document.getElementById("name").value = user.name;
@@ -336,11 +342,12 @@
     document.getElementById("profileImg").style.display = "inline-block";
   }
 
-  const upiId = "ms8875263-1@okhdfcbank";
+  const upiId = "9286345009@fam";
   const upiUrl = `upi://pay?pa=${upiId}&pn=Inflamed%20Drips&am=${total}&cu=INR`;
-  const qrUrl = `https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${encodeURIComponent(upiUrl)}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
 
   document.getElementById("qrCode").src = qrUrl;
+  document.getElementById("qrCode").style.display = "inline-block";
   document.getElementById("upiLink").href = upiUrl;
   document.getElementById("upiLink").innerText = `${upiId} (₹${total})`;
   document.getElementById("upiTitle").innerText = `Scan or Tap to Pay – ₹${total}`;
@@ -350,16 +357,15 @@
     document.getElementById("upiFields").style.display = mode === "upi" ? "block" : "none";
     document.getElementById("upiBox").style.display = mode === "upi" ? "block" : "none";
   }
-
+  window.togglePaymentFields = togglePaymentFields;
   togglePaymentFields();
 
-  function submitForm() {
+  window.submitForm = function () {
     const mode = document.getElementById("paymentMode").value;
     const txnId = document.getElementById("txnId").value.trim();
-    const screenshot = document.getElementById("screenshot").files[0];
 
-    if (mode === "upi" && (!txnId || !screenshot)) {
-      alert("Please provide Transaction ID and Screenshot.");
+    if (mode === "upi" && !txnId) {
+      alert("Please provide Transaction ID.");
       return;
     }
 
@@ -373,20 +379,19 @@
     const paymode = encodeURIComponent(mode === "upi" ? "UPI Payment" : "Cash on Delivery");
 
     const formURL = `https://docs.google.com/forms/d/e/1FAIpQLSd1y9W32HtoUiD9SDUe8iQeOa4a81CHueGG_YoTbb2CY3_0qA/viewform?usp=pp_url` +
-  `&entry.1466918485=${name}` +           // Name
-  `&entry.980509058=${email}` +           // Email
-  `&entry.829184286=${phone}` +           // Phone
-  `&entry.81152759=${address}` +          // Address
-  `&entry.1536144730=${item}` +           // Items
-  `&entry.139106175=${price}` +           // Total Price
-  `&entry.602707723=${txn}` +             // Transaction ID
-  `&entry.483401712=${paymode}`;          // Payment Mode
+      `&entry.1466918485=${name}` +
+      `&entry.980509058=${email}` +
+      `&entry.829184286=${phone}` +
+      `&entry.81152759=${address}` +
+      `&entry.1536144730=${item}` +
+      `&entry.139106175=${price}` +
+      `&entry.602707723=${txn}` +
+      `&entry.483401712=${paymode}`;
 
     alert("Redirecting to payment confirmation form. Please upload your screenshot there.");
     window.open(formURL, "_blank");
-  }
+  };
+};
 </script>
-
-
 </body>
 </html>
